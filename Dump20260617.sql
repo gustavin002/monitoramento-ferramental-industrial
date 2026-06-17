@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `tb_ferramenta`;
 CREATE TABLE `tb_ferramenta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
-  `horas_uso` int(11) NOT NULL,
+  `horas_uso` int(11) NOT NULL DEFAULT 0,
   `vida_util_maxima` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-16 17:27:18
+-- Dump completed on 2026-06-17 14:07:26

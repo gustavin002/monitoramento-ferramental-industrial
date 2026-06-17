@@ -16,7 +16,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FerramentaRepository {
     
-    public void cadastrarFerramenta(FerramentaDTO ferramenta){
+    public int salvar(FerramentaDTO ferramenta){
+        int linhasAfetadas = 0;
+        
         try{
         Connection conn = Conexao.conectar();    
         PreparedStatement stmt = null;
@@ -26,19 +28,15 @@ public class FerramentaRepository {
         stmt.setInt(2, ferramenta.getHorasUso());
         stmt.setInt(3, ferramenta.getVidaUtilMaxima());
         
-        int linhasAfetadas = stmt.executeUpdate();
-        
-        if(linhasAfetadas == 0){
-            throw new SQLException("Nenhuma linha foi afetada");
-        }
+        linhasAfetadas = stmt.executeUpdate();
         
         } catch(SQLException e){
             e.printStackTrace();
         }
-        
+        return linhasAfetadas;
     }
     
-    public List<FerramentaDTO> listarFerramentas(){
+    public List<FerramentaDTO> listarTodos(){
         List<FerramentaDTO> listar = new ArrayList<>();
         try {
             Connection conn = Conexao.conectar();
@@ -64,8 +62,8 @@ public class FerramentaRepository {
         return listar;
     }
     
-    public void salvarFerramenta (FerramentaDTO ferramenta){
-        
+    public int update (FerramentaDTO ferramenta){
+        int linhasAfetadas = 0;
         try{
             Connection conn = Conexao.conectar();    
             PreparedStatement stmt = null;
@@ -76,37 +74,29 @@ public class FerramentaRepository {
             stmt.setInt(3, ferramenta.getVidaUtilMaxima());
             stmt.setInt(4, ferramenta.getId());
             
-            int linhasAfetadas = stmt.executeUpdate();
-            
-            if(linhasAfetadas == 0){
-                throw new SQLException("Nenhuma linha foi afetada");
-            }
+            linhasAfetadas = stmt.executeUpdate();
             
         } catch (SQLException e){
             e.printStackTrace();
         }
-        
+        return linhasAfetadas;
     }
     
-    public void deleteById(Long id){
-        
+    public int deleteById(int id){
+        int linhasAfetadas = 0;
         try {
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
             
            stmt = conn.prepareStatement("DELETE FROM tb_ferramenta WHERE id = ?");
-           stmt.setLong(1, id);
+           stmt.setInt(1, id);
  
-           int linhasAfetadas = stmt.executeUpdate();
-           
-           if(linhasAfetadas == 0){
-               throw new SQLException("Nenhuma linha foi afetada");
-           }
+           linhasAfetadas = stmt.executeUpdate();
            
         } catch (SQLException e){
              e.printStackTrace();
         }
-        
+        return linhasAfetadas;
     }
     
 }

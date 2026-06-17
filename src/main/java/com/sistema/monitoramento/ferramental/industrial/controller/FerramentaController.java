@@ -17,19 +17,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class FerramentaController {
     
-    @Autowired FerramentaService service;
+    @Autowired private FerramentaService service;
+    
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/ferramentas";
+    }
     
     @GetMapping("/ferramentas")
-    public String listarFerramentas(Model model){
-        List<FerramentaDTO> lista = service.listarFerramentas();
+    public String listarTodos(Model model){
+        List<FerramentaDTO> lista = service.listarTodos();
         model.addAttribute("listaFerramentas", lista);
-        return "lista";
+        return "ferramentas";
     }
     
     @PostMapping("/ferramentas/salvar")
-    public String salvarFerramenta(FerramentaDTO ferramenta){
-        service.salvarFerramenta(ferramenta);
+    public String salvar(FerramentaDTO ferramenta){
+        service.salvar(ferramenta);
         return "redirect:/lista";
+    }
+    
+    @GetMapping("/ferramentas/excluir/{id}")
+    public String excluir(@PathVariable int id) {
+        service.deleteById(id);
+        return "redirect:/ferramentas";
     }
     
 }
