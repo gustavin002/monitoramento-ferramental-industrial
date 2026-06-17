@@ -23,8 +23,8 @@ public class FerramentaService {
         return repository.listarFerramentas();
     }
     
-    public void editarFerramenta (FerramentaDTO ferramenta){
-        repository.editarFerramenta(ferramenta);
+    public void salvarFerramenta (FerramentaDTO ferramenta){
+        repository.salvarFerramenta(ferramenta);
     }
     
     public void deleteById(Long id){

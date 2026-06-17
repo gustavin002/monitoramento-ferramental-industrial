@@ -64,7 +64,7 @@ public class FerramentaRepository {
         return listar;
     }
     
-    public void editarFerramenta (FerramentaDTO ferramenta){
+    public void salvarFerramenta (FerramentaDTO ferramenta){
         
         try{
             Connection conn = Conexao.conectar();    
