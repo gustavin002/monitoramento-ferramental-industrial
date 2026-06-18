@@ -79,9 +79,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </div>
 
         <div th:fragment="modalEditar(ferramenta)"
-             class="modal fade"
-             th:id="'modalEditar' + ${ferramenta.id}"
-             tabindex="-1">
+            class="modal fade"
+            th:id="'modalEditar' + ${ferramenta.id}"
+            tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
@@ -91,7 +91,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </div>
 
                     <div class="modal-body">
-                        <form th:action="@{/ferramentas/atualizar}" method="post">
+                        <form th:action="@{/ferramentas/update}" method="post">
 
                             <input type="hidden" name="id" th:value="${ferramenta.id}"/>
 

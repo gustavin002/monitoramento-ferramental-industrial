@@ -68,7 +68,7 @@ public class FerramentaRepository {
             Connection conn = Conexao.conectar();    
             PreparedStatement stmt = null;
             
-            stmt = conn.prepareStatement("UPDATE tb_ferramenta SET nome = ?, horas_uso = ?, vida_util_maxima = ? WHERE id = ?");
+            stmt = conn.prepareStatement("UPDATE tb_ferramenta SET nome = ?, horas_uso = ?, vida_util_maxima = ? WHERE id_ferramenta = ?");
             stmt.setString(1, ferramenta.getNome());
             stmt.setInt(2, ferramenta.getHorasUso());
             stmt.setInt(3, ferramenta.getVidaUtilMaxima());
@@ -88,7 +88,7 @@ public class FerramentaRepository {
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
             
-           stmt = conn.prepareStatement("DELETE FROM tb_ferramenta WHERE id = ?");
+           stmt = conn.prepareStatement("DELETE FROM tb_ferramenta WHERE id_ferramenta = ?");
            stmt.setInt(1, id);
  
            linhasAfetadas = stmt.executeUpdate();
