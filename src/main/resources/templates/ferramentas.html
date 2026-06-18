@@ -11,7 +11,75 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </head>
-    <body>
-        
+    <body class="bg-light">
+
+        <div th:replace="~{fragments/layout :: navbar}"></div>
+
+        <div class="container py-4">
+
+            <!-- Cabeçalho -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0">Ferramentas Cadastradas</h4>
+                <button class="btn btn-danger"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#painelCadastro">
+                    Nova Ferramenta
+                </button>
+            </div>
+
+            <!-- Exercício 8: Formulário colapsável de cadastro -->
+            <div class="collapse mb-4" id="painelCadastro">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        Cadastrar Nova Ferramenta
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/ferramentas/salvar}"
+                              th:object="${ferramenta}"
+                              method="post">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label">Nome da Ferramenta</label>
+                                    <input type="text" class="form-control"
+                                           th:field="*{nome}"
+                                           placeholder="Ex: Torno CNC #3" required/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Horas de Uso</label>
+                                    <input type="number" class="form-control"
+                                           th:field="*{horasUso}"
+                                           placeholder="0" min="0"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Vida Útil Máxima (h)</label>
+                                    <input type="number" class="form-control"
+                                           th:field="*{vidaUtilMaxima}"
+                                           placeholder="1000" min="1" required/>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="submit" class="btn btn-danger w-100">Salvar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4" th:if="${listaFerramentas != null and !listaFerramentas.isEmpty()}">
+                <div class="col-md-4" th:each="f : ${listaFerramentas}">
+                    <div th:replace="~{fragments/componentes :: cardFerramenta(ferramenta=${f})}"></div>
+                    <div th:replace="~{fragments/componentes :: modalEditar(ferramenta=${f})}"></div>
+                </div>
+            </div>
+
+            <div class="text-center py-5 text-muted"
+                 th:if="${listaFerramentas == null or listaFerramentas.isEmpty()}">
+                <p class="fs-5">Nenhuma ferramenta cadastrada ainda.</p>
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>

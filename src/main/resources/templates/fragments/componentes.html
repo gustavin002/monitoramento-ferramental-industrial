@@ -12,6 +12,115 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </head>
     <body>
-        
+        <div th:fragment="cardFerramenta(ferramenta)" class="card h-100">
+
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span class="fw-semibold" th:text="${ferramenta.nome}">Nome</span>
+                <span class="badge"
+                      th:classappend="${ferramenta.percentualDesgaste >= 80} ? 'bg-danger' :
+                      (${ferramenta.percentualDesgaste >= 50} ? 'bg-warning text-dark' : 'bg-success')"
+                      th:text="${ferramenta.percentualDesgaste >= 80} ? 'CRÍTICO' :
+                      (${ferramenta.percentualDesgaste >= 50} ? 'ALERTA' : 'OPERACIONAL')">
+                </span>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-2 text-center mb-3">
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <div class="small text-muted">Horas de Uso</div>
+                            <div class="fw-bold" th:text="${ferramenta.horasUso}">0</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <div class="small text-muted">Vida Útil Máx.</div>
+                            <div class="fw-bold" th:text="${ferramenta.vidaUtilMaxima}">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small text-muted">Desgaste</span>
+                    <span class="small fw-bold"
+                          th:text="${#numbers.formatDecimal(ferramenta.percentualDesgaste, 1, 1)} + '%'">
+                    </span>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar"
+                         role="progressbar"
+                         th:classappend="${ferramenta.percentualDesgaste >= 80} ? 'bg-danger' :
+                         (${ferramenta.percentualDesgaste >= 50} ? 'bg-warning' : 'bg-success')"
+                         th:style="'width: ' + ${ferramenta.percentualDesgaste} + '%'"
+                         th:attr="aria-valuenow=${ferramenta.percentualDesgaste},aria-valuemin=0,aria-valuemax=100">
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-0">ID: <span th:text="${ferramenta.id}">0</span></p>
+
+            </div>
+
+            <div class="card-footer bg-white d-flex gap-2">
+                <button type="button"
+                        class="btn btn-sm btn-outline-secondary flex-fill"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target='#modalEditar' + ${ferramenta.id}">
+                    Editar
+                </button>
+
+                <a th:href="@{/ferramentas/excluir/{id}(id=${ferramenta.id})}"
+                   class="btn btn-sm btn-danger flex-fill"
+                   onclick="return confirm('Descartar ferramenta?')">
+                    Descartar
+                </a>
+            </div>
+
+        </div>
+
+        <div th:fragment="modalEditar(ferramenta)"
+             class="modal fade"
+             th:id="'modalEditar' + ${ferramenta.id}"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title">Editar Ferramenta</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form th:action="@{/ferramentas/atualizar}" method="post">
+
+                            <input type="hidden" name="id" th:value="${ferramenta.id}"/>
+
+                            <div class="mb-3">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control"
+                                       name="nome" th:value="${ferramenta.nome}" required/>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <label class="form-label">Horas de Uso</label>
+                                    <input type="number" class="form-control"
+                                           name="horasUso" th:value="${ferramenta.horasUso}" min="0"/>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">Vida Útil Máxima</label>
+                                    <input type="number" class="form-control"
+                                           name="vidaUtilMaxima" th:value="${ferramenta.vidaUtilMaxima}" min="1" required/>
+                                </div>
+                            </div>
+                            <div class="d-grid mt-3">
+                                <button type="submit" class="btn btn-warning">Salvar Alterações</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </body>
 </html>
